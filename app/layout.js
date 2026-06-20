@@ -1,0 +1,20 @@
+import './globals.css';
+import { CartProvider } from '../lib/CartContext';
+
+export const metadata = {
+  title: 'Oi, Bonita! — Cosméticos e Perfumaria',
+  description: 'Perfumes, skincare e maquiagem selecionados com carinho. Faça seu pedido pelo WhatsApp.',
+  icons: {
+    icon: '/logo.png',
+  },
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="pt-BR">
+      <body>
+        <CartProvider>{children}</CartProvider>
+      </body>
+    </html>
+  );
+}
