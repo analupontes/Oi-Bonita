@@ -1,5 +1,6 @@
 import './globals.css';
 import { CartProvider } from '../lib/CartContext';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
   title: 'Oi, Bonita! — Cosméticos e Perfumaria',
@@ -14,6 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <body>
         <CartProvider>{children}</CartProvider>
+        <Analytics />
       </body>
     </html>
   );
