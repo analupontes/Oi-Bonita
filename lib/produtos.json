@@ -1,1 +1,56 @@
- 
+[
+  {
+    "codigo": "COD10",
+    "nome": "Perfume Yara Rosa",
+    "descricao": "Fragrância floral adocicada, fixação prolongada.",
+    "preco": 69.90,
+    "imagem_url": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600",
+    "categoria": "Perfumaria",
+    "estoque": 25
+  },
+  {
+    "codigo": "COD11",
+    "nome": "Hidratante Corporal Flor de Cerejeira",
+    "descricao": "Hidratação intensa por 24h, toque seco.",
+    "preco": 39.90,
+    "imagem_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600",
+    "categoria": "Corpo",
+    "estoque": 40
+  },
+  {
+    "codigo": "COD12",
+    "nome": "Batom Matte Rosê",
+    "descricao": "Cor intensa e duradoura, acabamento aveludado.",
+    "preco": 29.90,
+    "imagem_url": "https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?w=600",
+    "categoria": "Maquiagem",
+    "estoque": 60
+  },
+  {
+    "codigo": "COD13",
+    "nome": "Kit Skincare Glow",
+    "descricao": "Sérum + hidratante facial para pele radiante.",
+    "preco": 119.90,
+    "imagem_url": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600",
+    "categoria": "Skincare",
+    "estoque": 15
+  },
+  {
+    "codigo": "COD14",
+    "nome": "Paleta de Sombras Pink Glow",
+    "descricao": "12 cores em tons rosados, alta pigmentação.",
+    "preco": 54.90,
+    "imagem_url": "https://images.unsplash.com/photo-1583241800698-9c2cb3a04977?w=600",
+    "categoria": "Maquiagem",
+    "estoque": 30
+  },
+  {
+    "codigo": "COD15",
+    "nome": "Óleo Capilar Reparador",
+    "descricao": "Nutrição profunda, brilho e maciez instantânea.",
+    "preco": 44.90,
+    "imagem_url": "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600",
+    "categoria": "Cabelo",
+    "estoque": 35
+  }
+]
