@@ -108,7 +108,7 @@ export default function CartDrawer({ aberto, aoFechar }) {
                     {item.imagem_url ? (
                       <img src={item.imagem_url} alt={item.nome} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🌸</div>
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🛍️</div>
                     )}
                   </div>
 

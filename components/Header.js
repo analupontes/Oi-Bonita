@@ -84,7 +84,7 @@ export default function Header() {
                   className="btn btn-primario"
                   style={{ padding: '9px 16px', fontSize: '0.82rem' }}
                 >
-                  🌸 Painel Admin
+                  💄 Painel Admin
                 </Link>
               )}
               <button onClick={sair} className="btn btn-secundario" style={{ padding: '9px 16px', fontSize: '0.82rem' }}>
