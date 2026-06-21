@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
 import { formatarPreco } from '../../lib/whatsapp';
+import ImportarCsv from '../../components/ImportarCsv';
 
 const PRODUTO_VAZIO = {
   codigo: '',
@@ -27,6 +28,7 @@ export default function Admin() {
   const [form, setForm] = useState(PRODUTO_VAZIO);
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState('');
+  const [mostrarImportador, setMostrarImportador] = useState(false);
 
   useEffect(() => {
     async function verificarAcesso() {
@@ -169,10 +171,28 @@ export default function Admin() {
       <div className="container" style={{ marginTop: 28 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <h2 style={{ margin: 0, fontSize: '1.15rem' }}>Produtos ({produtos.length})</h2>
-          <button onClick={abrirNovo} className="btn btn-primario" style={{ padding: '10px 20px', fontSize: '0.88rem' }}>
-            + Novo produto
-          </button>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button
+              onClick={() => setMostrarImportador((v) => !v)}
+              className="btn btn-secundario"
+              style={{ padding: '10px 20px', fontSize: '0.88rem' }}
+            >
+              📥 Importar CSV
+            </button>
+            <button onClick={abrirNovo} className="btn btn-primario" style={{ padding: '10px 20px', fontSize: '0.88rem' }}>
+              + Novo produto
+            </button>
+          </div>
         </div>
+
+        {mostrarImportador && (
+          <ImportarCsv
+            aoConcluir={() => {
+              setMostrarImportador(false);
+              carregarProdutos();
+            }}
+          />
+        )}
 
         {/* Formulário (criar/editar) */}
         {editando && (
