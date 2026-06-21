@@ -63,11 +63,13 @@ export default function Header() {
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <img
             src="/logo.png"
-            alt="Oi, Bonita!"
+            alt="Bonite-se!"
             style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }}
           />
           <span className="texto-gradiente" style={{ fontSize: '1.5rem', fontWeight: 800 }}>
-            Oi, Bonita!
+            <img
+              src="/bonite-se.png"
+            
           </span>
         </Link>
 
