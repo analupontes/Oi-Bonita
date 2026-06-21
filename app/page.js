@@ -83,15 +83,7 @@ export default function Home() {
       {/* topo no estilo do site original: título gradiente gigante + busca */}
       <section style={{ textAlign: 'center', padding: '40px 20px 10px' }}>
         {saudacao && (
-          <p
-            style={{
-              color: 'var(--rosa-forte)',
-              fontWeight: 600,
-              fontSize: '0.95rem',
-              marginBottom: 8,
-              letterSpacing: '0.02em',
-            }}
-          >
+          <p className="texto-saudacao">
             {saudacao}
           </p>
         )}
@@ -161,7 +153,7 @@ export default function Home() {
         ) : produtosFiltrados.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--texto-suave)', padding: '40px 0' }}>
             {produtos.length === 0
-              ? 'Nenhum produto disponível no momento. Volte em breve! 🌸'
+              ? 'Nenhum produto disponível no momento. Volte em breve! ✨'
               : 'Nenhum produto encontrado para essa busca.'}
           </p>
         ) : (

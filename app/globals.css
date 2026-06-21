@@ -297,6 +297,14 @@ img {
   color: #c0392b;
 }
 
+.texto-saudacao {
+  color: var(--rosa-forte);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+}
+
 .cart-fab-btn {
   position: fixed;
   bottom: 25px;
@@ -342,5 +350,12 @@ img {
 
   .container {
     padding: 0 16px;
+  }
+
+  .texto-saudacao {
+    color: #ffffff;
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.12);
   }
 }
