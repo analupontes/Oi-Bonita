@@ -177,7 +177,15 @@ export default function Home() {
       <CartDrawer aberto={carrinhoAberto} aoFechar={() => setCarrinhoAberto(false)} />
 
       <footer style={{ textAlign: 'center', padding: '10px 16px 40px', color: 'var(--texto-suave)', fontSize: '0.8rem' }}>
-        © Direitos Autorais de Bonite-se! — Site feito por João Ricardo Pontes Garbelini
+        © Direitos Autorais de Bonite-se! — Site feito por{' '}
+        <a
+          href="https://instagram.com/0jrpg"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'var(--rosa-forte)', textDecoration: 'underline' }}
+        >
+          João Ricardo Pontes Garbelini
+        </a>
       </footer>
     </>
   );
