@@ -166,7 +166,7 @@ export default function Home() {
       <CartDrawer aberto={carrinhoAberto} aoFechar={() => setCarrinhoAberto(false)} />
 
       <footer style={{ textAlign: 'center', padding: '10px 0 40px', color: 'var(--texto-suave)', fontSize: '0.8rem' }}>
-          © Direitos Autorais de Oi, Bonita! -- Site feito por João Ricardo Pontes Garbelini
+          © Direitos Autorais de Bonite-se! -- Site feito por João Ricardo Pontes Garbelini 
       </footer>
     </>
   );
