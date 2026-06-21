@@ -6,14 +6,30 @@ import { supabase } from '../lib/supabaseClient';
 
 export default function Header() {
   const [usuario, setUsuario] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    async function carregarSessao(session) {
+      setUsuario(session?.user || null);
+
+      if (session?.user) {
+        const { data: perfil } = await supabase
+          .from('perfis')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+        setIsAdmin(Boolean(perfil?.is_admin));
+      } else {
+        setIsAdmin(false);
+      }
+    }
+
     supabase.auth.getSession().then(({ data }) => {
-      setUsuario(data.session?.user || null);
+      carregarSessao(data.session);
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUsuario(session?.user || null);
+      carregarSessao(session);
     });
 
     return () => listener.subscription.unsubscribe();
@@ -57,9 +73,20 @@ export default function Header() {
 
         <nav style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {usuario ? (
-            <button onClick={sair} className="btn btn-secundario" style={{ padding: '10px 18px', fontSize: '0.85rem' }}>
-              Sair
-            </button>
+            <>
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="btn btn-primario"
+                  style={{ padding: '10px 18px', fontSize: '0.85rem' }}
+                >
+                  🌸 Painel Admin
+                </Link>
+              )}
+              <button onClick={sair} className="btn btn-secundario" style={{ padding: '10px 18px', fontSize: '0.85rem' }}>
+                Sair
+              </button>
+            </>
           ) : (
             <Link href="/login" className="btn btn-secundario" style={{ padding: '10px 18px', fontSize: '0.85rem' }}>
               Entrar
