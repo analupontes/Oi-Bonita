@@ -91,12 +91,17 @@ export default function Home() {
             {saudacao}
           </p>
         )}
-        <h1
-          className="texto-gradiente"
-          style={{ fontSize: 'clamp(2.2rem, 6vw, 3rem)', fontWeight: 800, marginBottom: 6 }}
-        >
-          Oi, Bonita
-        </h1>
+        <img
+          src="/Bonite-se.png"
+          alt="Bonite-se!"
+          style={{
+            width: '100%',
+            maxWidth: 340,
+            aspectRatio: '9 / 4',
+            objectFit: 'contain',
+            margin: '0 auto 6px',
+          }}
+        />
         <p style={{ color: 'var(--texto-suave)', marginBottom: 22, fontSize: '0.95rem' }}>
           Perfumaria, skincare e maquiagem — peça pelo WhatsApp em segundos.
         </p>
@@ -165,8 +170,8 @@ export default function Home() {
       <CartButton aoClicar={() => setCarrinhoAberto(true)} />
       <CartDrawer aberto={carrinhoAberto} aoFechar={() => setCarrinhoAberto(false)} />
 
-      <footer style={{ textAlign: 'center', padding: '10px 0 40px', color: 'var(--texto-suave)', fontSize: '0.8rem' }}>
-          © Direitos Autorais de Bonite-se! -- Site feito por João Ricardo Pontes Garbelini 
+      <footer style={{ textAlign: 'center', padding: '10px 16px 40px', color: 'var(--texto-suave)', fontSize: '0.8rem' }}>
+        © Direitos Autorais de Bonite-se! — Site feito por João Ricardo Pontes Garbelini
       </footer>
     </>
   );

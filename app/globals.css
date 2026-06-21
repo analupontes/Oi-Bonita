@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* paleta oficial extraída do repositório Oi, Bonita! */
+  /* paleta oficial da marca Bonite-se */
   --rosa-fundo: #fff7fb;
   --rosa-blob-1: #ff7eb6;
   --rosa-blob-2: #ffd1e6;
@@ -225,4 +225,122 @@ img {
 @keyframes skeleton-loading {
   0% { background-position: 100% 50%; }
   100% { background-position: 0 50%; }
+}
+
+/* ============ ADMIN: grids responsivos ============ */
+.admin-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 14px;
+}
+
+.admin-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+.admin-grid-mapeamento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ============ ADMIN: tabela (desktop) / cards (mobile) ============ */
+.admin-tabela-desktop {
+  display: block;
+  overflow-x: auto;
+}
+
+.admin-cards-mobile {
+  display: none;
+}
+
+.status-pill {
+  border: none;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.status-pill.ativo {
+  background: #e3f3ea;
+  color: #257a52;
+}
+
+.status-pill.inativo {
+  background: #f3e3df;
+  color: #9c3a52;
+}
+
+.acoes-tabela {
+  display: flex;
+  gap: 12px;
+}
+
+.acoes-tabela button {
+  background: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+.acoes-tabela .editar {
+  color: var(--rosa-forte);
+}
+
+.acoes-tabela .excluir {
+  color: #c0392b;
+}
+
+.cart-fab-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 75px;
+  height: 75px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rosa-forte), var(--rosa-claro-2));
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 15px 40px rgba(255,79,161,.4);
+  transition: 0.3s;
+  z-index: 45;
+}
+
+@media (max-width: 480px) {
+  .cart-fab-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
+/* ============ RESPONSIVIDADE GERAL (mobile) ============ */
+@media (max-width: 720px) {
+  .admin-grid-2,
+  .admin-grid-3,
+  .admin-grid-mapeamento {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-tabela-desktop {
+    display: none;
+  }
+
+  .admin-cards-mobile {
+    display: flex !important;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
 }

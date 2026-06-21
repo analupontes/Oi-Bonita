@@ -2,7 +2,7 @@ import './globals.css';
 import { CartProvider } from '../lib/CartContext';
 
 export const metadata = {
-  title: 'Oi, Bonita! — Cosméticos e Perfumaria',
+  title: 'Bonite-se! — Cosméticos e Perfumaria',
   description: 'Perfumes, skincare e maquiagem selecionados com carinho. Faça seu pedido pelo WhatsApp.',
   icons: {
     icon: '/logo.png',
