@@ -29,6 +29,7 @@ export default function Admin() {
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState('');
   const [mostrarImportador, setMostrarImportador] = useState(false);
+  const [enviandoImagem, setEnviandoImagem] = useState(false);
 
   useEffect(() => {
     async function verificarAcesso() {
@@ -129,6 +130,44 @@ export default function Admin() {
     carregarProdutos();
   }
 
+  async function enviarImagem(e) {
+    const arquivo = e.target.files?.[0];
+    if (!arquivo) return;
+
+    if (!arquivo.type.startsWith('image/')) {
+      setMensagem('Erro: selecione um arquivo de imagem (jpg, png, webp...).');
+      return;
+    }
+
+    if (arquivo.size > 5 * 1024 * 1024) {
+      setMensagem('Erro: a imagem precisa ter no máximo 5MB.');
+      return;
+    }
+
+    setEnviandoImagem(true);
+    setMensagem('');
+
+    const extensao = arquivo.name.split('.').pop();
+    const nomeArquivo = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${extensao}`;
+
+    const { error: erroUpload } = await supabase.storage
+      .from('produtos-imagens')
+      .upload(nomeArquivo, arquivo, { cacheControl: '3600', upsert: false });
+
+    if (erroUpload) {
+      setMensagem('Erro ao enviar imagem: ' + erroUpload.message);
+      setEnviandoImagem(false);
+      return;
+    }
+
+    const { data: urlData } = supabase.storage
+      .from('produtos-imagens')
+      .getPublicUrl(nomeArquivo);
+
+    setForm((f) => ({ ...f, imagem_url: urlData.publicUrl }));
+    setEnviandoImagem(false);
+  }
+
   if (verificando) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--rosa-fundo)' }}>
@@ -157,9 +196,9 @@ export default function Admin() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--rosa-fundo)', paddingBottom: 60 }}>
       <header style={{ background: 'var(--branco)', borderBottom: '1px solid #ffeaf4', padding: '20px 0' }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h1 className="texto-gradiente" style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 10 }}>
-            <img src="/logo.png" alt="" style={{ width: 32, height: 32, borderRadius: '50%' }} />
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+          <h1 className="texto-gradiente" style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 10, whiteSpace: 'nowrap' }}>
+            <img src="/logo.png" alt="" style={{ width: 32, height: 32, borderRadius: '50%', flexShrink: 0 }} />
             Painel administrativo
           </h1>
           <Link href="/" style={{ fontSize: '0.85rem', color: 'var(--rosa-forte)', fontWeight: 600 }}>
@@ -169,17 +208,17 @@ export default function Admin() {
       </header>
 
       <div className="container" style={{ marginTop: 28 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, gap: 12, flexWrap: 'wrap' }}>
           <h2 style={{ margin: 0, fontSize: '1.15rem' }}>Produtos ({produtos.length})</h2>
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <button
               onClick={() => setMostrarImportador((v) => !v)}
               className="btn btn-secundario"
-              style={{ padding: '10px 20px', fontSize: '0.88rem' }}
+              style={{ padding: '10px 18px', fontSize: '0.85rem' }}
             >
               📥 Importar CSV
             </button>
-            <button onClick={abrirNovo} className="btn btn-primario" style={{ padding: '10px 20px', fontSize: '0.88rem' }}>
+            <button onClick={abrirNovo} className="btn btn-primario" style={{ padding: '10px 18px', fontSize: '0.85rem' }}>
               + Novo produto
             </button>
           </div>
@@ -199,7 +238,7 @@ export default function Admin() {
           <form onSubmit={salvarProduto} className="card" style={{ padding: 24, marginBottom: 26, display: 'flex', flexDirection: 'column', gap: 14 }}>
             <h3 style={{ margin: 0 }}>{editando === 'novo' ? 'Novo produto' : 'Editar produto'}</h3>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 14 }}>
+            <div className="admin-grid-2">
               <div>
                 <label style={{ fontSize: '0.78rem', fontWeight: 600 }}>Código *</label>
                 <input
@@ -233,7 +272,7 @@ export default function Admin() {
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 }}>
+            <div className="admin-grid-3">
               <div>
                 <label style={{ fontSize: '0.78rem', fontWeight: 600 }}>Preço (R$) *</label>
                 <input
@@ -270,12 +309,50 @@ export default function Admin() {
             </div>
 
             <div>
-              <label style={{ fontSize: '0.78rem', fontWeight: 600 }}>URL da imagem</label>
+              <label style={{ fontSize: '0.78rem', fontWeight: 600 }}>Imagem do produto</label>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginTop: 6 }}>
+                {form.imagem_url && (
+                  <img
+                    src={form.imagem_url}
+                    alt="Pré-visualização"
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: 14,
+                      objectFit: 'cover',
+                      flexShrink: 0,
+                      background: 'var(--rosa-fundo)',
+                    }}
+                  />
+                )}
+
+                <label
+                  className="btn btn-secundario"
+                  style={{
+                    cursor: enviandoImagem ? 'not-allowed' : 'pointer',
+                    padding: '11px 20px',
+                    fontSize: '0.85rem',
+                    opacity: enviandoImagem ? 0.6 : 1,
+                  }}
+                >
+                  {enviandoImagem ? 'Enviando...' : '📤 Enviar imagem'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={enviarImagem}
+                    disabled={enviandoImagem}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+              </div>
+
               <input
                 className="input"
+                style={{ marginTop: 10 }}
                 value={form.imagem_url || ''}
                 onChange={(e) => setForm({ ...form, imagem_url: e.target.value })}
-                placeholder="https://..."
+                placeholder="ou cole uma URL de imagem: https://..."
               />
             </div>
 
@@ -307,54 +384,88 @@ export default function Admin() {
         ) : produtos.length === 0 ? (
           <p style={{ color: 'var(--texto-suave)' }}>Nenhum produto cadastrado ainda.</p>
         ) : (
-          <div className="card" style={{ overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
-              <thead>
-                <tr style={{ background: '#ffeaf4', textAlign: 'left' }}>
-                  <th style={{ padding: '12px 16px' }}>Código</th>
-                  <th style={{ padding: '12px 16px' }}>Nome</th>
-                  <th style={{ padding: '12px 16px' }}>Preço</th>
-                  <th style={{ padding: '12px 16px' }}>Estoque</th>
-                  <th style={{ padding: '12px 16px' }}>Status</th>
-                  <th style={{ padding: '12px 16px' }}>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {produtos.map((p) => (
-                  <tr key={p.id} style={{ borderTop: '1px solid #ffeaf4' }}>
-                    <td style={{ padding: '12px 16px', fontWeight: 600, color: 'var(--rosa-forte)' }}>{p.codigo}</td>
-                    <td style={{ padding: '12px 16px' }}>{p.nome}</td>
-                    <td style={{ padding: '12px 16px' }}>R$ {formatarPreco(p.preco)}</td>
-                    <td style={{ padding: '12px 16px' }}>{p.estoque}</td>
-                    <td style={{ padding: '12px 16px' }}>
+          <>
+            {/* Tabela — visível em telas largas */}
+            <div className="card admin-tabela-desktop" style={{ overflow: 'hidden' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
+                <thead>
+                  <tr style={{ background: '#ffeaf4', textAlign: 'left' }}>
+                    <th style={{ padding: '12px 16px' }}>Imagem</th>
+                    <th style={{ padding: '12px 16px' }}>Código</th>
+                    <th style={{ padding: '12px 16px' }}>Nome</th>
+                    <th style={{ padding: '12px 16px' }}>Preço</th>
+                    <th style={{ padding: '12px 16px' }}>Estoque</th>
+                    <th style={{ padding: '12px 16px' }}>Status</th>
+                    <th style={{ padding: '12px 16px' }}>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {produtos.map((p) => (
+                    <tr key={p.id} style={{ borderTop: '1px solid #ffeaf4' }}>
+                      <td style={{ padding: '12px 16px' }}>
+                        {p.imagem_url ? (
+                          <img src={p.imagem_url} alt="" style={{ width: 40, height: 40, borderRadius: 10, objectFit: 'cover' }} />
+                        ) : (
+                          <span style={{ color: '#ccc' }}>—</span>
+                        )}
+                      </td>
+                      <td style={{ padding: '12px 16px', fontWeight: 600, color: 'var(--rosa-forte)' }}>{p.codigo}</td>
+                      <td style={{ padding: '12px 16px' }}>{p.nome}</td>
+                      <td style={{ padding: '12px 16px' }}>R$ {formatarPreco(p.preco)}</td>
+                      <td style={{ padding: '12px 16px' }}>{p.estoque}</td>
+                      <td style={{ padding: '12px 16px' }}>
+                        <button
+                          onClick={() => alternarAtivo(p)}
+                          className={`status-pill ${p.ativo ? 'ativo' : 'inativo'}`}
+                        >
+                          {p.ativo ? 'Ativo' : 'Inativo'}
+                        </button>
+                      </td>
+                      <td style={{ padding: '12px 16px' }}>
+                        <div className="acoes-tabela">
+                          <button className="editar" onClick={() => abrirEdicao(p)}>Editar</button>
+                          <button className="excluir" onClick={() => excluirProduto(p.id)}>Excluir</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Cards — visíveis em telas pequenas (mobile) */}
+            <div className="admin-cards-mobile" style={{ flexDirection: 'column', gap: 14 }}>
+              {produtos.map((p) => (
+                <div key={p.id} className="card" style={{ padding: 16, display: 'flex', gap: 14 }}>
+                  {p.imagem_url ? (
+                    <img src={p.imagem_url} alt="" style={{ width: 60, height: 60, borderRadius: 12, objectFit: 'cover', flexShrink: 0 }} />
+                  ) : (
+                    <div style={{ width: 60, height: 60, borderRadius: 12, background: 'var(--rosa-fundo)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🌸</div>
+                  )}
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+                      <span style={{ fontWeight: 700, color: 'var(--rosa-forte)', fontSize: '0.78rem' }}>{p.codigo}</span>
                       <button
                         onClick={() => alternarAtivo(p)}
-                        style={{
-                          border: 'none',
-                          borderRadius: 999,
-                          padding: '4px 12px',
-                          fontSize: '0.75rem',
-                          fontWeight: 700,
-                          background: p.ativo ? '#e3f3ea' : '#f3e3df',
-                          color: p.ativo ? '#257a52' : '#9c3a52',
-                        }}
+                        className={`status-pill ${p.ativo ? 'ativo' : 'inativo'}`}
                       >
                         {p.ativo ? 'Ativo' : 'Inativo'}
                       </button>
-                    </td>
-                    <td style={{ padding: '12px 16px', display: 'flex', gap: 8 }}>
-                      <button onClick={() => abrirEdicao(p)} style={{ background: 'none', border: 'none', color: 'var(--rosa-forte)', fontWeight: 600, cursor: 'pointer' }}>
-                        Editar
-                      </button>
-                      <button onClick={() => excluirProduto(p.id)} style={{ background: 'none', border: 'none', color: '#c0392b', fontWeight: 600, cursor: 'pointer' }}>
-                        Excluir
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                    <p style={{ fontWeight: 600, margin: '4px 0 2px' }}>{p.nome}</p>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--texto-suave)', margin: 0 }}>
+                      R$ {formatarPreco(p.preco)} · Estoque: {p.estoque}
+                    </p>
+                    <div className="acoes-tabela" style={{ marginTop: 10 }}>
+                      <button className="editar" onClick={() => abrirEdicao(p)}>Editar</button>
+                      <button className="excluir" onClick={() => excluirProduto(p.id)}>Excluir</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
