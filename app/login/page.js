@@ -41,7 +41,7 @@ export default function Login() {
     >
       <div className="card" style={{ width: '100%', maxWidth: 400, padding: '40px 32px' }}>
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <img src="/logo.png" alt="Oi, Bonita!" style={{ width: 64, height: 64, borderRadius: '50%', margin: '0 auto 12px', objectFit: 'cover' }} />
+          <img src="/logo.png" alt="Bonite-se!" style={{ width: 64, height: 64, borderRadius: '50%', margin: '0 auto 12px', objectFit: 'cover' }} />
           <h1 className="texto-gradiente" style={{ fontSize: '1.5rem', fontWeight: 800, margin: '0 0 4px' }}>
             Bem-vinda de volta
           </h1>
