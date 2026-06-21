@@ -121,12 +121,29 @@ export default function Admin() {
 
   async function excluirProduto(id) {
     if (!confirm('Tem certeza que deseja excluir este produto?')) return;
-    await supabase.from('produtos').delete().eq('id', id);
+
+    const { error } = await supabase.from('produtos').delete().eq('id', id);
+
+    if (error) {
+      setMensagem('Erro ao excluir: ' + error.message);
+      return;
+    }
+
+    setMensagem('');
     carregarProdutos();
   }
 
   async function alternarAtivo(produto) {
-    await supabase.from('produtos').update({ ativo: !produto.ativo }).eq('id', produto.id);
+    const { error } = await supabase
+      .from('produtos')
+      .update({ ativo: !produto.ativo })
+      .eq('id', produto.id);
+
+    if (error) {
+      setMensagem('Erro ao atualizar status: ' + error.message);
+      return;
+    }
+
     carregarProdutos();
   }
 
@@ -223,6 +240,12 @@ export default function Admin() {
             </button>
           </div>
         </div>
+
+        {mensagem && !editando && (
+          <p style={{ color: '#c0392b', fontSize: '0.85rem', margin: '0 0 16px', background: '#fbeaea', padding: '10px 14px', borderRadius: 14 }}>
+            {mensagem}
+          </p>
+        )}
 
         {mostrarImportador && (
           <ImportarCsv
