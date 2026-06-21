@@ -9,22 +9,7 @@ export default function CartButton({ aoClicar }) {
     <button
       onClick={aoClicar}
       aria-label="Abrir carrinho"
-      style={{
-        position: 'fixed',
-        bottom: 25,
-        right: 25,
-        width: 75,
-        height: 75,
-        border: 'none',
-        borderRadius: '50%',
-        background: 'linear-gradient(135deg, var(--rosa-forte), var(--rosa-claro-2))',
-        color: '#fff',
-        fontSize: 28,
-        cursor: 'pointer',
-        boxShadow: '0 15px 40px rgba(255,79,161,.4)',
-        transition: '0.3s',
-        zIndex: 45,
-      }}
+      className="cart-fab-btn"
       onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-5px) scale(1.05)')}
       onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0) scale(1)')}
     >

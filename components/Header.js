@@ -57,40 +57,42 @@ export default function Header() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 16,
+          gap: 12,
+          flexWrap: 'wrap',
         }}
       >
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
           <img
             src="/logo.png"
             alt="Bonite-se!"
-            style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }}
+            style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
           />
-          <span className="texto-gradiente" style={{ fontSize: '1.5rem', fontWeight: 800 }}>
-            <img
-              src="/bonite-se.png"
-            
+          <span
+            className="texto-gradiente"
+            style={{ fontSize: '1.5rem', fontWeight: 800, whiteSpace: 'nowrap' }}
+          >
+            Bonite-se!
           </span>
         </Link>
 
-        <nav style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
           {usuario ? (
             <>
               {isAdmin && (
                 <Link
                   href="/admin"
                   className="btn btn-primario"
-                  style={{ padding: '10px 18px', fontSize: '0.85rem' }}
+                  style={{ padding: '9px 16px', fontSize: '0.82rem' }}
                 >
                   🌸 Painel Admin
                 </Link>
               )}
-              <button onClick={sair} className="btn btn-secundario" style={{ padding: '10px 18px', fontSize: '0.85rem' }}>
+              <button onClick={sair} className="btn btn-secundario" style={{ padding: '9px 16px', fontSize: '0.82rem' }}>
                 Sair
               </button>
             </>
           ) : (
-            <Link href="/login" className="btn btn-secundario" style={{ padding: '10px 18px', fontSize: '0.85rem' }}>
+            <Link href="/login" className="btn btn-secundario" style={{ padding: '9px 16px', fontSize: '0.82rem' }}>
               Entrar
             </Link>
           )}

@@ -271,7 +271,7 @@ export default function ImportarCsv({ aoConcluir }) {
             Indique qual coluna do arquivo corresponde a cada campo:
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div className="admin-grid-mapeamento">
             {CAMPOS_PRODUTO.map((campo) => (
               <div key={campo.chave}>
                 <label style={{ fontSize: '0.78rem', fontWeight: 600 }}>
