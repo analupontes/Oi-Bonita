@@ -45,11 +45,15 @@ export default function Home() {
         .eq('ativo', true)
         .order('criado_em', { ascending: true });
 
-      if (error || !data || data.length === 0) {
+      if (error) {
+        // só usa o catálogo local se houve um erro DE FATO (ex: sem internet,
+        // banco fora do ar) — nunca quando a lista vier vazia de propósito
+        // (ex: todos os produtos desativados/excluídos pelo admin)
         setProdutos(produtosJson);
-        setErro(Boolean(error));
+        setErro(true);
       } else {
-        setProdutos(data);
+        setProdutos(data || []);
+        setErro(false);
       }
       setCarregando(false);
     }
@@ -96,7 +100,7 @@ export default function Home() {
           alt="Bonite-se!"
           style={{
             width: '100%',
-            maxWidth: 340,
+            maxWidth: 1020,
             aspectRatio: '9 / 4',
             objectFit: 'contain',
             margin: '0 auto 6px',
@@ -156,7 +160,9 @@ export default function Home() {
           </div>
         ) : produtosFiltrados.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--texto-suave)', padding: '40px 0' }}>
-            Nenhum produto encontrado para essa busca.
+            {produtos.length === 0
+              ? 'Nenhum produto disponível no momento. Volte em breve! 🌸'
+              : 'Nenhum produto encontrado para essa busca.'}
           </p>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 25 }}>
