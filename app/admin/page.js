@@ -463,7 +463,7 @@ export default function Admin() {
                   {p.imagem_url ? (
                     <img src={p.imagem_url} alt="" style={{ width: 60, height: 60, borderRadius: 12, objectFit: 'cover', flexShrink: 0 }} />
                   ) : (
-                    <div style={{ width: 60, height: 60, borderRadius: 12, background: 'var(--rosa-fundo)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🌸</div>
+                    <div style={{ width: 60, height: 60, borderRadius: 12, background: 'var(--rosa-fundo)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🎀</div>
                   )}
 
                   <div style={{ flex: 1, minWidth: 0 }}>
