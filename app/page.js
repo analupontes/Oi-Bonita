@@ -7,6 +7,7 @@ import CartDrawer from '../components/CartDrawer';
 import ProductCard from '../components/ProductCard';
 import { supabase } from '../lib/supabaseClient';
 import produtosJson from '../lib/produtos.json';
+import { montarSaudacao } from '../lib/saudacao';
 
 export default function Home() {
   const [produtos, setProdutos] = useState([]);
@@ -15,6 +16,25 @@ export default function Home() {
   const [carrinhoAberto, setCarrinhoAberto] = useState(false);
   const [categoriaAtiva, setCategoriaAtiva] = useState('Todos');
   const [busca, setBusca] = useState('');
+  const [saudacao, setSaudacao] = useState('');
+
+  useEffect(() => {
+    async function carregarSaudacao() {
+      const { data: sessao } = await supabase.auth.getSession();
+      const user = sessao?.session?.user;
+      const nome = user?.user_metadata?.nome;
+      setSaudacao(montarSaudacao(nome));
+    }
+
+    carregarSaudacao();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      const nome = session?.user?.user_metadata?.nome;
+      setSaudacao(montarSaudacao(nome));
+    });
+
+    return () => listener.subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     async function carregarProdutos() {
@@ -58,6 +78,19 @@ export default function Home() {
 
       {/* topo no estilo do site original: título gradiente gigante + busca */}
       <section style={{ textAlign: 'center', padding: '40px 20px 10px' }}>
+        {saudacao && (
+          <p
+            style={{
+              color: 'var(--rosa-forte)',
+              fontWeight: 600,
+              fontSize: '0.95rem',
+              marginBottom: 8,
+              letterSpacing: '0.02em',
+            }}
+          >
+            {saudacao}
+          </p>
+        )}
         <h1
           className="texto-gradiente"
           style={{ fontSize: 'clamp(2.2rem, 6vw, 3rem)', fontWeight: 800, marginBottom: 6 }}
