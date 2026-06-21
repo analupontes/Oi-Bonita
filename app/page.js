@@ -96,7 +96,7 @@ export default function Home() {
           alt="Bonite-se!"
           style={{
             width: '100%',
-            maxWidth: 680,
+            maxWidth: 1020,
             aspectRatio: '9 / 4',
             objectFit: 'contain',
             margin: '0 auto 6px',
