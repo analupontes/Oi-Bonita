@@ -1,5 +1,6 @@
 import './globals.css';
 import { CartProvider } from '../lib/CartContext';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   title: 'Bonite-se! — Cosméticos e Perfumaria',
@@ -14,6 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <body>
         <CartProvider>{children}</CartProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
